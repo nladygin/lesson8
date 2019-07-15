@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class TestDrive2 {
 
             setTimeouts(5L);
             List<WebElement> list = driver.findElements(By.cssSelector(carLocator));
-            if (list.size() == 0) { return null; }
+            if (list.size() == 0) { return Collections.emptyList(); }
             setTimeouts(60L);
 
                 do {
@@ -94,8 +95,6 @@ public class TestDrive2 {
 
 
     private void collectData(List<String> cars) {
-
-        if (cars == null) { return; }
 
             for (int i=0; i<cars.size(); i++) {
 
