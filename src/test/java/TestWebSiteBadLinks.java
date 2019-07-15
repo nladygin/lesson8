@@ -22,7 +22,7 @@ public class TestWebSiteBadLinks {
     private static WebDriver driver;
     private static BrowserMobProxy server;
     private Logger logger = LogManager.getLogger(TestWebSiteBadLinks.class);
-    private String rootURL = "https://builderbody.ru/programma-trenirovok-dlya-ektomorfa/"; //"http://nevalyashka-ekb.ru/"; //"http://www.bcsummit.ru/"; //"https://zaoknomekb.ru/"; //"https://www.hrsinternational.com/";
+    private String rootURL = "https://www.hrsinternational.com/";
 
 
 
