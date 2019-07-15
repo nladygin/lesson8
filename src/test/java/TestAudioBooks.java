@@ -6,13 +6,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -40,9 +38,7 @@ public class TestAudioBooks {
 
         List<String> booksList = getAllBooks();
         logger.info("Books found: " + booksList.size());
-
         getBooksInfo(booksList);
-
     }
 
 
@@ -90,64 +86,43 @@ public class TestAudioBooks {
 
             driver.get(book);
 
-            try {
-
                 String title   = getInfo(() -> driver.findElement(By.cssSelector("h1[class='header active p-sky-title']")).getText(), "");
                 String author  = getInfo(() -> driver.findElement(By.cssSelector("div[class='authors']")).getText(), "");
                 String price   = getInfo(() -> driver.findElement(By.cssSelector("div[ng-if='bookData.types.audiobook.sale']")).getAttribute("data-price"), "");
                 String preview = getInfo(() -> driver.findElement(By.cssSelector("div[class='p-book-download-link m-audio-mp3 ng-scope'] a")).getAttribute("href"), "");
-
 /*
-                String title;
-                try {
-                    title = driver.findElement(By.cssSelector("h1[class='header active p-sky-title']")).getText();
-                } catch (NoSuchElementException e) {
-                    title = "";
-                }
-
-                String author;
-                try {
-                    author = driver.findElement(By.cssSelector("div[class='authors']")).getText();
-                } catch (NoSuchElementException e) {
-                    author = "";
-                }
-
-                String price;
-                try {
-                    price = driver.findElement(By.cssSelector("div[ng-if='bookData.types.audiobook.sale']")).getAttribute("data-price");
-                } catch (NoSuchElementException e) {
-                    price = "";
-                }
-
-                String preview;
-                try {
-                    preview = driver.findElement(By.cssSelector("div[class='p-book-download-link m-audio-mp3 ng-scope'] a")).getAttribute("href");
-                } catch (NoSuchElementException e) {
-                    preview = "";
-                }
-*/
                 logger.info("\"" + book + "\",\""
                         + title + "\",\""
                         + author + "\",\""
                         + price + "\",\""
                         + preview + "\"");
+*/
 
-/*
-                writer.write(book + ","
-                        + title + ","
-                        + author + ","
-                        + price + ","
-                        + preview);
+            try {
+
+                writer.write(
+                        "\"" + book + "\"," +
+                           "\"" + title + "\"," +
+                           "\"" + author + "\"," +
+                           "\"" + price + "\"," +
+                           "\"" + preview + "\""
+                );
+
                 writer.newLine();
                 writer.flush();
-*/
-            } catch (Exception e) {
-                logger.error("parsing problem: " + book);
+
+            } catch (IOException e) {
+                logger.error("cannot write data file!");
             }
+
+
 
         }
 
     }
+
+
+
 
     private <T> T getInfo(Supplier<T> supplier, T def) {
         try {
