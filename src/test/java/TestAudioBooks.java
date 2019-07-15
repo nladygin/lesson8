@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -91,34 +92,40 @@ public class TestAudioBooks {
 
             try {
 
+                String title   = getInfo(() -> driver.findElement(By.cssSelector("h1[class='header active p-sky-title']")).getText(), "");
+                String author  = getInfo(() -> driver.findElement(By.cssSelector("div[class='authors']")).getText(), "");
+                String price   = getInfo(() -> driver.findElement(By.cssSelector("div[ng-if='bookData.types.audiobook.sale']")).getAttribute("data-price"), "");
+                String preview = getInfo(() -> driver.findElement(By.cssSelector("div[class='p-book-download-link m-audio-mp3 ng-scope'] a")).getAttribute("href"), "");
+
+/*
                 String title;
                 try {
                     title = driver.findElement(By.cssSelector("h1[class='header active p-sky-title']")).getText();
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     title = "";
                 }
 
                 String author;
                 try {
                     author = driver.findElement(By.cssSelector("div[class='authors']")).getText();
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     author = "";
                 }
 
                 String price;
                 try {
                     price = driver.findElement(By.cssSelector("div[ng-if='bookData.types.audiobook.sale']")).getAttribute("data-price");
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     price = "";
                 }
 
                 String preview;
                 try {
                     preview = driver.findElement(By.cssSelector("div[class='p-book-download-link m-audio-mp3 ng-scope'] a")).getAttribute("href");
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     preview = "";
                 }
-
+*/
                 logger.info("\"" + book + "\",\""
                         + title + "\",\""
                         + author + "\",\""
@@ -142,7 +149,13 @@ public class TestAudioBooks {
 
     }
 
-
+    private <T> T getInfo(Supplier<T> supplier, T def) {
+        try {
+            return supplier.get();
+        } catch (Exception e) {
+            return def;
+        }
+    }
 
 
 
