@@ -22,7 +22,7 @@ public class TestWebSiteBadLinks {
     private static WebDriver driver;
     private static BrowserMobProxy server;
     private Logger logger = LogManager.getLogger(TestWebSiteBadLinks.class);
-    private String rootURL = "https://www.hrsinternational.com/";
+    private String rootURL = "http://oldnewrock.ru/news"; //"https://www.hrsinternational.com/";
 
 
 
@@ -66,7 +66,7 @@ public class TestWebSiteBadLinks {
                 logger.error("cannot get page: " + sourcePage);
                 siteTree.addLinks(sourcePage, new LinkedList<>());
             }
-            siteTree.showTreeSize();
+            siteTree.showTreeSize(logger);
             dig(siteTree);
         }
 
@@ -103,56 +103,6 @@ public class TestWebSiteBadLinks {
 
 
 
-    private class SiteTree extends HashMap<String, List<String>> {
-
-        private int treeSize = 0;
-        private int branchCount = 0;
-
-        public SiteTree(String startPage) {
-            this.put(startPage, null);
-        }
-
-
-        public void addLinks(String page, List<String> hrefs) {
-            for (String href : hrefs) {
-                if ( !this.containsKey(href)
-                        && href.contains(rootURL)
-                        && !href.contains("#")
-                ) {
-                    this.put(href, null);
-                }
-            }
-            this.put(page, hrefs);
-            this.branchCount += hrefs.size();
-        }
-
-
-        public Entry getNextSourcePage() {
-            Iterator hmIterator = this.entrySet().iterator();
-            do {
-                SiteTree.Entry mapElement = (Map.Entry) hmIterator.next();
-                    if (mapElement.getValue() == null) {
-                        return mapElement;
-                    }
-            } while (hmIterator.hasNext());
-            return null;
-        }
-
-
-        public void showTreeSize() {
-            int ts = this.size()/100;
-            if (ts > this.treeSize) {
-                logger.info("tree size: " + ts + "00+");
-                this.treeSize = ts;
-            }
-        }
-
-
-        public int getBranchCount() {
-            return this.branchCount;
-        }
-
-    }
 
 
 
